@@ -1,0 +1,50 @@
+{
+    "git.ignoreLimitWarning": true,
+    "docker.languageserver.diagnostics.instructionJSONInSingleQuotes": "ignore",
+    "accessibility.signals.chatEditModifiedFile": {
+        "sound": "off"
+    },
+    "accessibility.signals.diffLineDeleted": {
+        "sound": "off"
+    },
+    "accessibility.signals.editsKept": {
+        "sound": "off",
+        "announcement": "off"
+    },
+    "accessibility.signals.editsUndone": {
+        "sound": "off"
+    },
+    "accessibility.signals.lineHasBreakpoint": {
+        "sound": "off"
+    },
+    "accessibility.signals.lineHasError": {
+        "sound": "off",
+        "announcement": "off"
+    },
+    "accessibility.signals.positionHasWarning": {
+        "sound": "off",
+        "announcement": "off"
+    },
+    "accessibility.signals.taskCompleted": {
+        "sound": "off",
+        "announcement": "off"
+    },
+    "accessibility.signals.taskFailed": {
+        "sound": "off",
+        "announcement": "off"
+    },
+    "accessibility.signals.terminalBell": {
+        "sound": "off",
+        "announcement": "off"
+    },
+    "accessibility.signals.terminalCommandFailed": {
+        "sound": "off"
+    },
+    "accessibility.signals.terminalCommandSucceeded": {
+        "sound": "off"
+    },
+    "accessibility.signals.terminalQuickFix": {
+        "sound": "off",
+        "announcement": "off"
+    }
+}
