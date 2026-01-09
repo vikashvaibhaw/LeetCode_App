@@ -1,6 +1,10 @@
 import {useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {z} from 'zod';
+import {useDispatch,useSelector} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
+import {registerUser} from '../authSlice'
+import { useEffect } from 'react';
 
 //schema validation for signup form
 
@@ -12,18 +16,29 @@ const signupSchema=z.object({
 
 
 function Signup(){
-    const {register,handleSubmit,formState:{errors},}=useForm({resolver:zodResolver(signupSchema)});
 
-    const submittedData=(data)=>{
-        console.log(data);
-        
+    const dispatch=useDispatch();
+    const navigate=useNavigate();
+    const {isAuthenticated, loading ,error}=useSelector((state)=>state.auth);
+
+    const {register,handleSubmit,formState :{errors},}=useForm({resolver:zodResolver(signupSchema)});
+    
+    useEffect(()=>{
+        if(isAuthenticated){
+            navigate('/');
+        }
+    },[isAuthenticated,navigate]);
+
+    const onSubmit=(data)=>{
+        dispatch(registerUser(data));
     }
+
     return (
         <div className='min-h-screen flex items-center justify-center p-4'>
             <div className='card w-96 bg-base-100 shadow-xl'>
                 <div className='card-body'>
                    <h2 className='card-title justify-center text-3xl'>Leetcode</h2>
-                   <form onSubmit={handleSubmit(submittedData)}>
+                   <form onSubmit={handleSubmit(onSubmit)}>
                      <div className='form-control'>
                         <label className='label mb-1'>
                             <span className='label-text'>First Name</span>

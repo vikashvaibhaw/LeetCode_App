@@ -2,7 +2,7 @@ const express=require('express')
 const path = require("path");
 require ("dotenv").config({ path: path.resolve(__dirname, ".env") });
 const app=express();
-
+const cors=require('cors');
 
 const mongoose = require("mongoose");
 
@@ -13,6 +13,11 @@ const redisClient = require('./config/redis');
 const problemRouter=require("./routes/problemCreator");
 const submitRouter=require("./routes/submit")
 
+
+app.use(cors({
+   origin:'http://localhost:5173',
+   credentials:true
+}))
 
 app.use(express.json());
 app.use(cookieParser())
