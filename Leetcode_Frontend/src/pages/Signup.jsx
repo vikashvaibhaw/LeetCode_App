@@ -2,9 +2,9 @@ import {useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {z} from 'zod';
 import {useDispatch,useSelector} from 'react-redux'
-import {useNavigate} from 'react-router-dom'
+import {NavLink, useNavigate} from 'react-router-dom'
 import {registerUser} from '../authSlice'
-import { useEffect } from 'react';
+import { useEffect ,useState} from 'react';
 
 //schema validation for signup form
 
@@ -16,10 +16,10 @@ const signupSchema=z.object({
 
 
 function Signup(){
-
+    const [showPassword,setShowPassword]=useState(false);
     const dispatch=useDispatch();
     const navigate=useNavigate();
-    const {isAuthenticated, loading ,error}=useSelector((state)=>state.auth);
+    const {isAuthenticated, loading}=useSelector((state)=>state.auth); //Removed error as it wasn't 
 
     const {register,handleSubmit,formState :{errors},}=useForm({resolver:zodResolver(signupSchema)});
     
@@ -68,17 +68,79 @@ function Signup(){
                             <span className='text-error'>{errors.emailId.message}</span>
                         )}
                      </div>
-                    
+                      {/*password with toggle*/}
                      <div className='form-control mt-4'>
                         <label className='label mb-1'>
                             <span className='label-text'>Password</span>
                         </label>
-                        <input
-                          type="password"
-                          placeholder="********"
-                          className={`input input-bordered ${errors.password && 'input-error'}`}
-                          {...register('password')}
+                        <div className='relative'>
+                            <input
+                            type={showPassword ? "text":"password"}
+                            placeholder="********"
+                            //Added pr-10 (padding-right) to make space for the button
+                            className={`input input-bordered w-full pr-10  ${errors.password && 'input-error'}`}
+                            {...register('password')}
                         />
+                        <button
+                            type="button"
+                            className='absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 hover:text-2xl'
+                            onClick={()=>setShowPassword(!showPassword)}
+                            aria-label={showPassword ? "Hide Password" : "Show Password"} //Accessibility
+                        >
+
+                           {showPassword ? (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M1.5 12s4.5-7.5 10.5-7.5S22.5 12 22.5 12 18 19.5 12 19.5 1.5 12 1.5 12z"
+                              />
+                                <circle cx="12" cy="12" r="3" />
+                               </svg>
+                           ):(
+                              <svg
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 className="h-5 w-5"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                              >
+                              <path
+                                 strokeLinecap="round"
+                                 strokeLinejoin="round"
+                                 strokeWidth={2}
+                                 d="M3 3l18 18"
+                             />
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M10.584 10.587a2 2 0 002.828 2.828"
+                              />
+                              <path
+                                strokeLinecap="round"
+                                 strokeLinejoin="round"
+                                  strokeWidth={2}
+                                   d="M9.88 5.083A10.477 10.477 0 0112 4.5c6 0 10.5 7.5 10.5 7.5a18.68 18.68 0 01-3.478 4.568"
+                              />
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M6.61 6.61C4.86 8.08 3.5 10.5 3.5 10.5s4.5 7.5 10.5 7.5c.66 0 1.3-.07 1.92-.2"
+                              />
+                            </svg>
+                            )}
+                           </button>
+                        </div>
+                        
                         {errors.password && (
                             <span className='text-error'>{errors.password.message}</span>
                         )}
@@ -87,12 +149,23 @@ function Signup(){
                      <div className='form-control mt-6 flex justify-center'>
                         <button
                           type='submit'
-                          className='btn btn-primary'
+                          className={`btn btn-primary ${loading ? 'loading' : ''}`}
+                          disabled={loading}
                         >
-                            Sign Up
+                            {loading ? 'Signing Up...' : 'Signup'}
                         </button>
                      </div>  
                    </form>
+
+                   {/*Login Redirect*/}
+                   <div className='text-center mt-6'>{/*Increased mt for spacing */}
+                      <span className='text-sm'>
+                         Already have an account ?{' '}
+                         <NavLink to="/login" className="link link-primary">
+                            Login
+                         </NavLink>
+                      </span>
+                   </div>
                 </div> 
             </div>
         </div>
